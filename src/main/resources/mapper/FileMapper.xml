@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.raccoon.team.boot.mapper.FileMapper">
+  <parameterMap id="file" type="cn.raccoon.team.boot.entity.File"/>
+  <resultMap id="file" type="cn.raccoon.team.boot.entity.File"/>
+  <insert id="insertFile" parameterMap="file" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO file(path)
+    VALUES (#{path})
+  </insert>
+</mapper>
