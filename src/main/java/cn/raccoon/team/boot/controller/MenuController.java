@@ -8,6 +8,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ public class MenuController {
      */
     @ApiOperation("菜单列表(不包含导航)")
     @ApiOperationSupport(order = 101)
+    @RequiresPermissions("/menu/listMenu")
     @GetMapping("/listMenu")
     public R<List<Menu>> listMenu() {
         return R.ok(menuService.listMenu());
@@ -65,6 +67,7 @@ public class MenuController {
     @ApiOperation("菜单详情")
     @ApiOperationSupport(order = 103)
     @GetMapping("/getMenuById")
+    @RequiresPermissions("/menu/getMenuById")
     @ApiImplicitParam(name = "menuId", value = "菜单ID", dataTypeClass = Integer.class)
     public R<Menu> getMenuById(@NotNull(message = "你怎么能不传ID！")
                                @RequestParam("menuId") Integer menuId) {
@@ -81,6 +84,7 @@ public class MenuController {
      */
     @ApiOperation("新增菜单")
     @PostMapping("/insertMenu")
+    @RequiresPermissions("/menu/insertMenu")
     @ApiOperationSupport(order = 104)
     public R insertMenu(@RequestBody Menu menu) {
         return R.ok(menuService.insertMenu(menu));
@@ -96,6 +100,7 @@ public class MenuController {
      */
     @ApiOperation("更新菜单")
     @PostMapping("/updateMenu")
+    @RequiresPermissions("/menu/updateMenu")
     @ApiOperationSupport(order = 105)
     public R updateMenu(@RequestBody Menu menu) {
         return R.ok(menuService.updateMenu(menu));
@@ -111,6 +116,7 @@ public class MenuController {
      */
     @ApiOperation("删除菜单")
     @PostMapping("/deleteMenu")
+    @RequiresPermissions("/menu/deleteMenu")
     @ApiOperationSupport(order = 106)
     @ApiImplicitParam(name = "menuId", value = "菜单Id", dataTypeClass = Integer.class)
     public R deleteMenu(@NotNull(message = "你怎么能不传ID！")
@@ -128,6 +134,7 @@ public class MenuController {
      */
     @ApiOperation("菜单下的导航列表")
     @GetMapping("/listNavigationByMenuId")
+    @RequiresPermissions("/menu/listNavigationByMenuId")
     @ApiOperationSupport(order = 107)
     @ApiImplicitParam(name = "menuId", value = "菜单Id", dataTypeClass = Integer.class)
     public R<List<Navigation>> listNavigationByMenuId(@NotNull(message = "你怎么能不传ID！")
@@ -145,6 +152,7 @@ public class MenuController {
      */
     @ApiOperation("获得导航详情")
     @GetMapping("/getNavigationById")
+    @RequiresPermissions("/menu/getNavigationById")
     @ApiOperationSupport(order = 108)
     @ApiImplicitParam(name = "navigationId", value = "导航Id", dataTypeClass = Integer.class)
     public R<Navigation> getNavigationById(@NotNull(message = "你怎么能不传ID！")
@@ -162,6 +170,7 @@ public class MenuController {
      */
     @ApiOperation("新增导航")
     @PostMapping("/insertNavigation")
+    @RequiresPermissions("/menu/insertNavigation")
     @ApiOperationSupport(order = 109)
     public R insertNavigation(@RequestBody Navigation navigation) {
         return R.ok(menuService.insertNavigation(navigation));
@@ -177,6 +186,7 @@ public class MenuController {
      */
     @ApiOperation("更新导航")
     @PostMapping("/updateNavigation")
+    @RequiresPermissions("/menu/updateNavigation")
     @ApiOperationSupport(order = 110)
     public R updateNavigation(@RequestBody Navigation navigation) {
         return R.ok(menuService.updateNavigation(navigation));
@@ -192,6 +202,7 @@ public class MenuController {
      */
     @ApiOperation("删除导航")
     @PostMapping("/deleteNavigation")
+    @RequiresPermissions("/menu/deleteNavigation")
     @ApiOperationSupport(order = 111)
     @ApiImplicitParam(name = "navigationId", value = "导航ID", dataTypeClass = Integer.class)
     public R deleteNavigation(@NotNull(message = "你怎么能不传ID！")

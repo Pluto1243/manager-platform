@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "用户")
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private IUserService userService;
 
@@ -36,6 +38,7 @@ public class UserController {
 
     @PostMapping("/changePassword")
     @ApiImplicitParam(name = "password", value = "密码", dataTypeClass = String.class)
+    @RequiresPermissions("/user/changePassword")
     @ApiOperation(value = "生成密钥")
     public R changePassword(@RequestParam("password") String password){
         return R.ok(userService.changePassword(password));

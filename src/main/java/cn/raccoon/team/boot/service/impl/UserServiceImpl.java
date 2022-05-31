@@ -49,8 +49,8 @@ public class UserServiceImpl implements IUserService {
         if (user == null) {
             throw new CommonException(EmError.USER_NOT_FOUND);
         }
-        if (passwordEncoderUtil.matches(passwd, user.getPasswd())) {
-            user.setToken(jwtTokenUtil.generateToken(user.getAccount()));
+        if (passwordEncoderUtil.matches(passwd, user.getPassword())) {
+            user.setToken(jwtTokenUtil.generateToken(user.getUsername()));
             return user;
         }
         throw new CommonException(EmError.PASSWD_ACCOUNT_ERROR);

@@ -31,6 +31,7 @@
     <jaxb.version>2.3.3</jaxb.version>
     <mybatis-plus.version>3.5.1</mybatis-plus.version>
     <hibernate-validator.version>6.2.0.FINAL</hibernate-validator.version>
+    <shiro.version>1.3.2</shiro.version>
   </properties>
   <dependencies>
     <dependency>
@@ -146,6 +147,12 @@
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>${hibernate-validator.version}</version>
+    </dependency>
+    <!--Shiro-->
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-spring</artifactId>
+      <version>${shiro.version}</version>
     </dependency>
   </dependencies>
 

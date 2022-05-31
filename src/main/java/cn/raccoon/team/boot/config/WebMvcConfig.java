@@ -51,8 +51,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         patterns.add("/swagger-resources");
         patterns.add("/v2/api-docs");
         patterns.add("v2/**");
-        patterns.add("/user/userLogin");
-        patterns.add("/user/changePassword");
         registry.addInterceptor(signInterceptor)
                 .excludePathPatterns(patterns);
     }

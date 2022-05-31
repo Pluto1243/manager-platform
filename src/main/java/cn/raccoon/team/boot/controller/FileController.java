@@ -6,6 +6,7 @@ import cn.raccoon.team.boot.exception.response.R;
 import cn.raccoon.team.boot.service.IFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,7 @@ public class FileController {
      * @return cn.raccoon.team.boot.exception.response.R<cn.raccoon.team.boot.entity.File>
      */
     @PostMapping("/uploadFile")
+    @RequiresPermissions("/file/uploadFile")
     @ApiOperation(value = "上传文件")
     public R<cn.raccoon.team.boot.entity.File> uploadFile(@RequestParam("file") MultipartFile file) {
         // 获取文件名称
