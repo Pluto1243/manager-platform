@@ -1,6 +1,7 @@
 package cn.raccoon.team.boot.config.shiro;
 
 import cn.raccoon.team.boot.config.shiro.filter.AutoFilter;
+import cn.raccoon.team.boot.config.shiro.realm.MyRealm;
 import cn.raccoon.team.boot.entity.Permission;
 import cn.raccoon.team.boot.mapper.ShiroMapper;
 import com.github.pagehelper.util.StringUtil;
@@ -13,7 +14,6 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import  cn.raccoon.team.boot.config.shiro.realm.MyRealm;
 
 import javax.servlet.Filter;
 import java.util.HashMap;
@@ -80,6 +80,7 @@ public class ShiroConfig {
         shiroMap.put("/swagger-resources/**", "anon");
         shiroMap.put("/doc.html", "anon");
         shiroMap.put("/user/userLogin", "anon");
+        shiroMap.put("/menu/listMenusInfo", "anon");
         // 加载资源权限
         List<Permission> permissions = shiroMapper.getAllResourcePermission();
         permissions.stream().forEach(permission -> {
