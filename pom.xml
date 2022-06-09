@@ -157,7 +157,7 @@
   </dependencies>
 
   <build>
-    <finalName>springBoot</finalName>
+    <finalName>manager-platform</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

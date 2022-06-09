@@ -108,12 +108,30 @@ public class JwtTokenUtil {
      * @param claims 数据声明
      * @return 令牌
      */
-    private String generateToken(Map<String, Object> claims) {
+    public String generateToken(Map<String, Object> claims) {
         Date expirationDate = new Date(System.currentTimeMillis()+ EXPIRATION_TIME);
         JwtBuilder jwtBuilder = Jwts.builder().setClaims(claims).setExpiration(expirationDate);
         JwtBuilder jwtBuilder1 = jwtBuilder.signWith(SignatureAlgorithm.HS512, SECRET_KEY);
         String compact = jwtBuilder1.compact();
         return compact;
+    }
+
+    /**
+     * 从令牌中获取用户ID
+     *
+     * @param token 令牌
+     * @return 用户Id
+     */
+    public Integer getIdFromToken(String token) {
+        Integer id = null;
+        try {
+            Claims claims = getClaimsFromToken(token);
+            System.out.println("claims = " + claims.toString());
+            id = Integer.parseInt(claims.getId());
+        } catch (Exception e) {
+            System.out.println("e = " + e.getMessage());
+        }
+        return id;
     }
 
     /**

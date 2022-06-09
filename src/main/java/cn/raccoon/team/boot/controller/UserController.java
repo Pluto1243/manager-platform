@@ -39,7 +39,7 @@ public class UserController {
     @PostMapping("/changePassword")
     @ApiImplicitParam(name = "password", value = "密码", dataTypeClass = String.class)
     @RequiresPermissions("/user/changePassword")
-    @ApiOperation(value = "生成密钥")
+    @ApiOperation(value = "修改密码")
     public R changePassword(@RequestParam("password") String password){
         return R.ok(userService.changePassword(password));
     }

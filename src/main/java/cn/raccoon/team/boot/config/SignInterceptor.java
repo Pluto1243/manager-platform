@@ -1,8 +1,5 @@
 package cn.raccoon.team.boot.config;
 
-import cn.raccoon.team.boot.entity.User;
-import cn.raccoon.team.boot.exception.CommonException;
-import cn.raccoon.team.boot.exception.EmError;
 import cn.raccoon.team.boot.service.IUserService;
 import cn.raccoon.team.boot.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;

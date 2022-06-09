@@ -31,5 +31,5 @@ public interface IUserService {
      * @param password
      * @return
      */
-    String changePassword(String password);
+    Boolean changePassword(String password);
 }

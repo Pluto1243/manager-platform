@@ -7,8 +7,16 @@ import cn.raccoon.team.boot.mapper.IUserMapper;
 import cn.raccoon.team.boot.service.IUserService;
 import cn.raccoon.team.boot.utils.BCryptPasswordEncoderUtil;
 import cn.raccoon.team.boot.utils.JwtTokenUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author Qian
@@ -50,7 +58,13 @@ public class UserServiceImpl implements IUserService {
             throw new CommonException(EmError.USER_NOT_FOUND);
         }
         if (passwordEncoderUtil.matches(passwd, user.getPassword())) {
-            user.setToken(jwtTokenUtil.generateToken(user.getUsername()));
+            Map<String, Object> claims = new HashMap<>();
+            // token放入用户ID
+            claims.put(Claims.ID, user.getId());
+            // token放入用户电话
+            claims.put(Claims.SUBJECT, user.getUsername());
+            claims.put(Claims.ISSUED_AT, new Date());
+            user.setToken(jwtTokenUtil.generateToken(claims));
             return user;
         }
         throw new CommonException(EmError.PASSWD_ACCOUNT_ERROR);
@@ -63,8 +77,14 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public String changePassword(String password) {
-        return passwordEncoderUtil.encode(password);
+    public Boolean changePassword(String password) {
+        // 获取当前请求
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+        String token = request.getHeader("token");
+        Integer id = jwtTokenUtil.getIdFromToken(token);
+        User user = mapper.selectById(id);
+        user.setPassword(passwordEncoderUtil.encode(password));
+        return mapper.updateById(user) > 0;
     }
 
 
