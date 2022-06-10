@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
- * TODO
+ * 注册信息
  *
  * @author wangjie
  * @date 10:18 2022年06月10日
