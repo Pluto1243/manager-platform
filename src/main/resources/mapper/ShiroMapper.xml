@@ -6,10 +6,10 @@
   <select id="getPermissionByUsername" resultMap="Permission">
     SELECT *
     FROM `backstage_permission` bp
-             LEFT JOIN `backstage_role_permission` brp ON bp.id = brp.permissionId
-             LEFT JOIN `backstage_role` br ON brp.roleId = br.id
-             LEFT JOIN `backstage_user_role` bur ON bur.roleId = br.id
-             LEFT JOIN `user` u ON u.id = bur.userId
+           LEFT JOIN `backstage_role_permission` brp ON bp.id = brp.permissionId
+           LEFT JOIN `backstage_role` br ON brp.roleId = br.id
+           LEFT JOIN `backstage_user_role` bur ON bur.roleId = br.id
+           LEFT JOIN `user` u ON u.id = bur.userId
     WHERE u.username = #{username}
   </select>
 
@@ -17,4 +17,9 @@
     SELECT *
     FROM `backstage_permission`
   </select>
+
+  <insert id="setUserWithRole">
+    INSERT INTO backstage_user_role (userId, roleId)
+    values (#{userId}, #{roleId})
+  </insert>
 </mapper>

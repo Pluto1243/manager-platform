@@ -1,12 +1,15 @@
 package cn.raccoon.team.boot.service.impl;
 
+import cn.raccoon.team.boot.entity.RegisterInfo;
 import cn.raccoon.team.boot.entity.User;
 import cn.raccoon.team.boot.exception.CommonException;
 import cn.raccoon.team.boot.exception.EmError;
 import cn.raccoon.team.boot.mapper.IUserMapper;
+import cn.raccoon.team.boot.mapper.ShiroMapper;
 import cn.raccoon.team.boot.service.IUserService;
 import cn.raccoon.team.boot.utils.BCryptPasswordEncoderUtil;
 import cn.raccoon.team.boot.utils.JwtTokenUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +29,10 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements IUserService {
     @Autowired
-    private IUserMapper mapper;
+    private IUserMapper userMapper;
+
+    @Autowired
+    private ShiroMapper shiroMapper;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -41,7 +48,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public User getUserByAccount(String account) {
-        return mapper.getUserByAccount(account);
+        return userMapper.getUserByAccount(account);
     }
 
     /**
@@ -77,15 +84,33 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
-    public Boolean changePassword(String password) {
+    public Boolean changePassword(String password, HttpServletResponse response) {
         // 获取当前请求
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
         String token = request.getHeader("token");
         Integer id = jwtTokenUtil.getIdFromToken(token);
-        User user = mapper.selectById(id);
+        User user = userMapper.selectById(id);
         user.setPassword(passwordEncoderUtil.encode(password));
-        return mapper.updateById(user) > 0;
+        response.setHeader("token", token);
+        response.setHeader("Access-control-Expose-Headers", "token");   //跨域
+        return userMapper.updateById(user) > 0;
     }
 
+    @Override
+    public Boolean register(RegisterInfo registerInfo) {
+        User user = new User();
+        user.setUsername(registerInfo.getUsername());
+        user.setPassword(passwordEncoderUtil.encode(registerInfo.getPassword()));
+        int flag = userMapper.insert(user);
+        if (flag > 0) {
+            // 设置 2（游客） 权限
+            shiroMapper.setUserWithRole(user.getId(), 2);
+        }
+        return flag > 0;
+    }
 
+    @Override
+    public Boolean checkUserName(String username) {
+        return userMapper.selectCount(new QueryWrapper<User>().eq("username", username)) == 0;
+    }
 }

@@ -1,6 +1,9 @@
 package cn.raccoon.team.boot.service;
 
+import cn.raccoon.team.boot.entity.RegisterInfo;
 import cn.raccoon.team.boot.entity.User;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author Qian
@@ -31,5 +34,25 @@ public interface IUserService {
      * @param password
      * @return
      */
-    Boolean changePassword(String password);
+    Boolean changePassword(String password, HttpServletResponse response);
+    
+    /**
+     * @description 注册
+     *
+     * @author wangjie
+     * @date 10:22 2022年06月10日 
+     * @param registerInfo
+     * @return java.lang.Boolean 
+     */
+    Boolean register(RegisterInfo registerInfo);
+    
+    /**
+     * @description 校验用户名是否重复
+     *
+     * @author wangjie
+     * @date 10:47 2022年06月10日 
+     * @param username
+     * @return java.lang.Boolean 
+     */
+    Boolean checkUserName(String username);
 }
