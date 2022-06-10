@@ -49,7 +49,7 @@ public class FileController {
     @PostMapping("/uploadFile")
     @RequiresPermissions("/file/uploadFile")
     @ApiOperation(value = "上传文件")
-    public R<cn.raccoon.team.boot.entity.File> uploadFile(@RequestParam("file") MultipartFile file) {
+    public R<cn.raccoon.team.boot.entity.File> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("directory") String directory) {
         // 获取文件名称
         String originalFilename = file.getOriginalFilename();
 
@@ -70,10 +70,26 @@ public class FileController {
             String suffixName = originalFilename.substring(originalFilename.lastIndexOf("."));
             //重新随机生成名字
             String filename = UUID.randomUUID() +suffixName;
+            File realFile = null;
             // 保存到服务器
-            file.transferTo(new File(path + "/" + filename));
+            if (directory != null) {
+                realFile = new File(path + "/"+ directory.trim() + "/" + filename);
+            } else {
+                realFile = new File(path + "/" + filename);
+            }
+            if (!realFile.getParentFile().exists()) {
+                realFile.setWritable(true, false);
+                realFile.getParentFile().mkdirs();
+                file.transferTo(realFile);
+            } else {
+                file.transferTo(realFile);
+            }
             cn.raccoon.team.boot.entity.File myFile = new cn.raccoon.team.boot.entity.File();
-            myFile.setPath(server + filename);
+            if (directory != null) {
+                myFile.setPath(server + directory.trim() + "/" + filename);
+            } else {
+                myFile.setPath(server + filename);
+            }
             if (fileService.uploadFile(myFile)) {
                 return R.ok(myFile);
             } else {

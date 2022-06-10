@@ -50,7 +50,7 @@ public interface IUserService {
      * @description 校验用户名是否重复
      *
      * @author wangjie
-     * @date 10:47 2022年06月10日 
+     * @date 16:44 2022年06月10日
      * @param username
      * @return java.lang.Boolean 
      */
