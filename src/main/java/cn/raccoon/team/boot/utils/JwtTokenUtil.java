@@ -97,8 +97,12 @@ public class JwtTokenUtil {
      * 移除token
      * @param token
      */
-    public void removeToken(String token){
-//        Claims claimsFromToken = getClaimsFromToken(token);
+    public void removeToken(String token) {
+        try {
+            // TODO 引入redis的时候在做
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

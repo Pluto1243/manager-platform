@@ -113,4 +113,19 @@ public class UserServiceImpl implements IUserService {
     public Boolean checkUserName(String username) {
         return userMapper.selectCount(new QueryWrapper<User>().eq("username", username)) == 0;
     }
+
+    @Override
+    public Boolean logout() {
+        try {
+            // 获取当前请求
+            HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+            String token = request.getHeader("token");
+            if (token != null) {
+                jwtTokenUtil.removeToken(token);
+            }
+        } catch (IllegalStateException e) {
+            throw new CommonException(EmError.LOGOUT_FAILD);
+        }
+        return true;
+    }
 }

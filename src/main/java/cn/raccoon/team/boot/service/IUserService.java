@@ -55,4 +55,14 @@ public interface IUserService {
      * @return java.lang.Boolean 
      */
     Boolean checkUserName(String username);
+
+    /**
+     * @description 退出登录
+     *
+     * @author wangjie
+     * @date 16:57 2022年06月13日
+     * @param
+     * @return java.lang.Boolean
+     */
+    Boolean logout();
 }

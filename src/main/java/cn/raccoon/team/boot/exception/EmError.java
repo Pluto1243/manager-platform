@@ -6,6 +6,8 @@ package cn.raccoon.team.boot.exception;
 
 @SuppressWarnings("AlibabaEnumConstantsMustHaveComment")
 public enum EmError implements CommonError {
+    LOGOUT_FAILD(10008, "退出登录失败"),
+
     AUTH_FAILD(10007, "没有访问权限"),
 
     FILE_TYPE_ILLEGAL(10006, "文件类型非法"),

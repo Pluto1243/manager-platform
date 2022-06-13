@@ -65,4 +65,11 @@ public class UserController {
     public R checkUsername(@NotEmpty(message = "请输入用户名！") @RequestParam("username") String username) {
         return R.ok(userService.checkUserName(username));
     }
+
+    @PostMapping("/logout")
+    @ApiOperation("退出登录")
+    @ApiOperationSupport(order = 105)
+    public R logout() {
+        return R.ok(userService.logout());
+    }
 }
