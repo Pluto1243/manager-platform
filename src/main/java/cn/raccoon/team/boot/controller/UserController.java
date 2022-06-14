@@ -1,12 +1,12 @@
 package cn.raccoon.team.boot.controller;
 
 import cn.raccoon.team.boot.entity.RegisterInfo;
+import cn.raccoon.team.boot.entity.User;
 import cn.raccoon.team.boot.exception.response.R;
 import cn.raccoon.team.boot.service.IUserService;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +31,18 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/userLogin")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "account", value = "账号", dataTypeClass = String.class),
-            @ApiImplicitParam(name = "passwd", value = "密码", dataTypeClass = String.class)
-    })
     @ApiOperationSupport(order = 101)
     @ApiOperation(value = "用户登录")
-    public R userLogin(@RequestParam("account") String account,
-                       @RequestParam("passwd") String passwd) {
-        return R.ok(userService.userLogin(account, passwd));
+    public R userLogin(@RequestBody User user) {
+        return R.ok(userService.userLogin(user.getUsername(), user.getPassword()));
     }
 
     @PostMapping("/changePassword")
-    @ApiImplicitParam(name = "password", value = "密码", dataTypeClass = String.class)
     @RequiresPermissions("/user/changePassword")
     @ApiOperationSupport(order = 102)
     @ApiOperation(value = "修改密码")
-    public R changePassword(@RequestParam("password") String password, HttpServletResponse response){
-        return R.ok(userService.changePassword(password, response));
+    public R changePassword(@RequestBody User user, HttpServletResponse response){
+        return R.ok(userService.changePassword(user.getPassword(), response));
     }
 
     @PostMapping("/register")
