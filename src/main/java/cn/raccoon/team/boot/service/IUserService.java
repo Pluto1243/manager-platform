@@ -1,6 +1,7 @@
 package cn.raccoon.team.boot.service;
 
 import cn.raccoon.team.boot.entity.RegisterInfo;
+import cn.raccoon.team.boot.entity.UpdateUserInfo;
 import cn.raccoon.team.boot.entity.User;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,6 +56,16 @@ public interface IUserService {
      * @return java.lang.Boolean 
      */
     Boolean checkUserName(String username);
+
+    /**
+     * @description 更新用户信息
+     *
+     * @author wangjie
+     * @date 11:38 2022年06月15日
+     * @param updateUserInfo
+     * @return java.lang.Boolean 
+     */
+    Boolean updateUser(UpdateUserInfo updateUserInfo);
 
     /**
      * @description 退出登录

@@ -3,8 +3,9 @@
 <mapper namespace="cn.raccoon.team.boot.mapper.IUserMapper">
   <resultMap id="user" type="cn.raccoon.team.boot.entity.User"/>
   <select id="getUserByAccount" resultMap="user">
-    SELECT *
-    FROM user
-    WHERE username = #{account}
+    SELECT u.*, f.path as profilePath
+    FROM user u
+    LEFT JOIN file f ON u.profile = f.id
+    WHERE u.username = #{account}
   </select>
 </mapper>

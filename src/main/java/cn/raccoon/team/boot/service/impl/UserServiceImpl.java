@@ -1,6 +1,7 @@
 package cn.raccoon.team.boot.service.impl;
 
 import cn.raccoon.team.boot.entity.RegisterInfo;
+import cn.raccoon.team.boot.entity.UpdateUserInfo;
 import cn.raccoon.team.boot.entity.User;
 import cn.raccoon.team.boot.exception.CommonException;
 import cn.raccoon.team.boot.exception.EmError;
@@ -112,6 +113,21 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Boolean checkUserName(String username) {
         return userMapper.selectCount(new QueryWrapper<User>().eq("username", username)) == 0;
+    }
+
+    @Override
+    public Boolean updateUser(UpdateUserInfo updateUserInfo) {
+        // 获取当前请求
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+        String token = request.getHeader("token");
+        Integer id = jwtTokenUtil.getIdFromToken(token);
+        if (token == null || id == null) {
+            throw new CommonException(EmError.PLEASE_TO_LOGIN);
+        }
+        User user = new User();
+        user.setId(id);
+        user.make(updateUserInfo);
+        return userMapper.updateById(user) > 0;
     }
 
     @Override

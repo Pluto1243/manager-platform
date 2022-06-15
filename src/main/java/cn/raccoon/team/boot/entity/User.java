@@ -21,4 +21,13 @@ public class User implements Serializable {
     private String password;
     @TableField(exist = false)
     private String token;
+    @TableField(exist = false)
+    @ApiModelProperty("头像路径")
+    private String profilePath;
+    @ApiModelProperty("头像ID")
+    private Integer profile;
+
+    public void make(UpdateUserInfo updateUserInfo) {
+        this.setProfile(updateUserInfo.getProfile());
+    }
 }

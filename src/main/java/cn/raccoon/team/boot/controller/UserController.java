@@ -1,6 +1,7 @@
 package cn.raccoon.team.boot.controller;
 
 import cn.raccoon.team.boot.entity.RegisterInfo;
+import cn.raccoon.team.boot.entity.UpdateUserInfo;
 import cn.raccoon.team.boot.entity.User;
 import cn.raccoon.team.boot.exception.response.R;
 import cn.raccoon.team.boot.service.IUserService;
@@ -60,9 +61,16 @@ public class UserController {
         return R.ok(userService.checkUserName(username));
     }
 
+    @PostMapping("/updateUser")
+    @ApiOperation("修改用户信息")
+    @ApiOperationSupport(order = 106)
+    public R updateUser(@RequestBody UpdateUserInfo updateUserInfo) {
+        return R.ok(userService.updateUser(updateUserInfo));
+    }
+
     @PostMapping("/logout")
     @ApiOperation("退出登录")
-    @ApiOperationSupport(order = 105)
+    @ApiOperationSupport(order = 107)
     public R logout() {
         return R.ok(userService.logout());
     }
