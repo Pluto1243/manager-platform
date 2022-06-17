@@ -46,6 +46,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         patterns.add("/error");
         patterns.add("/img/**");
         patterns.add("/user/**");
+        patterns.add("/menu/listMenusInfo");
         patterns.add("/favicon.ico");
         patterns.add("/error");
         patterns.add("/swagger-resources");

@@ -6,13 +6,9 @@ import cn.raccoon.team.boot.exception.response.R;
 import cn.raccoon.team.boot.service.IFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -46,10 +42,9 @@ public class FileController {
      * @param file
      * @return cn.raccoon.team.boot.exception.response.R<cn.raccoon.team.boot.entity.File>
      */
-    @PostMapping("/uploadFile")
-    @RequiresPermissions("/file/uploadFile")
+    @PostMapping("/{directory}/uploadFile")
     @ApiOperation(value = "上传文件")
-    public R<cn.raccoon.team.boot.entity.File> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("directory") String directory) {
+    public R<cn.raccoon.team.boot.entity.File> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("directory") String directory) {
         // 获取文件名称
         String originalFilename = file.getOriginalFilename();
 
