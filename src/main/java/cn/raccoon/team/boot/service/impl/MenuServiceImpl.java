@@ -141,12 +141,14 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Boolean insertNavigation(Navigation navigation) {
+        // 查询新增导航的菜单下最大的排序
         Navigation limitNavigation = navigationMapper.selectOne(
             new QueryWrapper<Navigation>()
                 .isNull("deleteAt")
+                .eq("menuId", navigation.getMenuId())
                 .orderByDesc("`order`")
                 .last("limit 1"));
-        // 当前菜单在最末
+        // 当前导航在最末
         if (limitNavigation == null) {
             navigation.setOrder(1);
         } else {
@@ -204,6 +206,6 @@ public class MenuServiceImpl implements IMenuService {
             item.setOrder(item.getOrder() - 1);
             navigationMapper.updateById(item);
         });
-        return menuMapper.deleteById(navigationId) > 0;
+        return navigationMapper.deleteById(navigationId) > 0;
     }
 }
