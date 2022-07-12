@@ -27,9 +27,6 @@ public class FileServiceImpl implements IFileService {
     @Value("${file-path}")
     private String path;
 
-    @Value("${file-server}")
-    private String server;
-
     @Override
     public File uploadFile(MultipartFile file, String directory) {
 
@@ -69,12 +66,12 @@ public class FileServiceImpl implements IFileService {
             String realPath = null;
 
             if (StringUtils.hasLength(directory)) {
-                realPath = path + "/"+ directory.trim() + "/" + filename;
+                realPath = directory.trim() + "/" + filename;
             } else {
-                realPath = path + "/" + filename;
+                realPath = filename;
             }
             // 保存到服务器
-            realFile = new java.io.File(realPath);
+            realFile = new java.io.File(path + "/" + realPath);
             myFile.setPath(realPath);
 
             if (!realFile.getParentFile().exists()) {
